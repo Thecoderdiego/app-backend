@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let notes = [
   {
     id: 1,
@@ -28,13 +30,45 @@ app.get('/', (request, response) => {
 
 app.get('/api/notes', (request, response) => {
   response.json(notes)
+  console.log(notes)
 })
 
 app.get('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id)
-  console.log(id);
+  console.log(id)
   const note = notes.find(note => note.id === id)
   note ? response.json(note) : response.status(404).end()
+})
+
+app.delete('/api/notes/:id',(request,response) => {
+  const id = Number(request.params.id)
+  notes = notes.filter(note => note.id !== id)
+  response.status(204).end()
+})
+
+app.post('/api/notes',(request,response) => {
+  const note = request.body
+
+  const ids = notes.map(note => note.id)
+  const maxId = Math.max(...ids)
+
+  if (!note.content) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const newNote = {
+    id: maxId + 1,
+    content: note.content,
+    date: new Date().toISOString,
+    important: note.important
+  }
+
+  notes = [...notes,newNote]
+
+  console.log(note)
+  response.json(newNote)
 })
 
 const PORT = 3000
