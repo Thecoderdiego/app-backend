@@ -73,6 +73,8 @@ app.post('/api/notes',(request,response) => {
   response.json(newNote)
 })
 
+
+// el siguiente middleware después de nuestras rutas, que se usa para capturar solicitudes realizadas a rutas inexistentes
 app.use((request, response) => {
   response.status(404).json({
     error: 'Not found'
