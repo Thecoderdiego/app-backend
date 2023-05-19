@@ -1,9 +1,10 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const logger = require('./loggerMiddleware')
 
+app.use(cors())
 app.use(express.json())
-
 app.use(logger)
 
 let notes = [
@@ -68,8 +69,6 @@ app.post('/api/notes',(request,response) => {
   }
 
   notes = [...notes,newNote]
-
-  console.log(note)
   response.json(newNote)
 })
 
