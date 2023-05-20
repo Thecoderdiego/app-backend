@@ -2,6 +2,6 @@ POST http://localhost:3000/api/notes
 Content-Type: application/json
 
 {
-  "content": "",
+  "content": "Creando documentos desde el manejador de rutas y guardándolos en la base de datos",
   "important": false
 }
